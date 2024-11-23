@@ -1,26 +1,26 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
-import bcrypt from 'bcryptjs';
+import { useState } from "react";
+import { useRouter } from "next/router";
+import bcrypt from "bcryptjs";
 
 export default function Register() {
   const [formData, setFormData] = useState({
-    name: '',
-    username: '',
-    mobile: '',
-    email: '',
-    password: '',
-    referalCode: '',
-    teamName: '',
-    teamLeader: '',
-    dataAssigned: ''
+    name: "",
+    username: "",
+    mobile: "",
+    email: "",
+    password: "",
+    referalCode: "",
+    teamName: "",
+    teamLeader: "",
+    dataAssigned: "",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const router = useRouter();
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -28,47 +28,51 @@ export default function Register() {
     e.preventDefault();
     try {
       const hashedPassword = await bcrypt.hash(formData.password, 10);
-      
-      const res = await fetch('/api/auth/intern/register', {
-        method: 'POST',
+
+      const res = await fetch("/api/auth/intern/register", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           ...formData,
-          password: hashedPassword
+          password: hashedPassword,
         }),
       });
 
       const data = await res.json();
       if (res.ok) {
-        router.push('/');
+        router.push("/");
       } else {
         setError(data.message);
       }
     } catch (err) {
-      setError('An error occurred. Please try again.');
+      setError("An error occurred. Please try again.");
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-white flex items-center justify-center p-6">
-      <div className="bg-white rounded-2xl shadow-xl p-10 w-full max-w-lg">
+    <div className="min-h-screen bg-neutral-900 flex items-center justify-center p-6">
+      <div className="bg-neutral-800 rounded-xl shadow-2xl shadow-neutral-950/50 p-10 w-full max-w-lg border border-neutral-700">
         <div className="text-center mb-10">
-          <h1 className="text-4xl font-bold text-gray-900">Join Our Team</h1>
-          <p className="text-gray-600 mt-3 text-lg">Create your account to get started</p>
+          <h1 className="text-3xl font-bold text-[#FFFFF0]">Join Our Team</h1>
+          <p className="text-neutral-400 mt-3">
+            Create your account to get started
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {error && (
-            <div className="bg-red-50 text-red-600 p-4 rounded-lg text-sm font-medium border border-red-200">
+            <div className="bg-red-900/50 text-red-300 p-4 rounded-lg text-sm border border-red-800">
               {error}
             </div>
           )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-[#FFFFF0] mb-2">
                 Full Name
               </label>
               <input
@@ -78,13 +82,15 @@ export default function Register() {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none text-gray-800"
+                className="w-full px-4 py-3 rounded-lg bg-neutral-700 border border-neutral-600 text-[#FFFFF0] placeholder-neutral-400 focus:ring-2 focus:ring-neutral-500 focus:border-neutral-500 transition-all outline-none"
                 placeholder="John Doe"
               />
             </div>
 
             <div>
-              <label htmlFor="username" className="block text-sm font-semibold text-gray-700 mb-2">
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium text-[#FFFFF0] mb-2">
                 Username
               </label>
               <input
@@ -94,7 +100,7 @@ export default function Register() {
                 value={formData.username}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none text-gray-800"
+                className="w-full px-4 py-3 rounded-lg bg-neutral-700 border border-neutral-600 text-[#FFFFF0] placeholder-neutral-400 focus:ring-2 focus:ring-neutral-500 focus:border-neutral-500 transition-all outline-none"
                 placeholder="johndoe123"
               />
             </div>
@@ -102,7 +108,9 @@ export default function Register() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label htmlFor="mobile" className="block text-sm font-semibold text-gray-700 mb-2">
+              <label
+                htmlFor="mobile"
+                className="block text-sm font-medium text-[#FFFFF0] mb-2">
                 Mobile Number
               </label>
               <input
@@ -112,13 +120,15 @@ export default function Register() {
                 value={formData.mobile}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none text-gray-800"
+                className="w-full px-4 py-3 rounded-lg bg-neutral-700 border border-neutral-600 text-[#FFFFF0] placeholder-neutral-400 focus:ring-2 focus:ring-neutral-500 focus:border-neutral-500 transition-all outline-none"
                 placeholder="+1 (555) 000-0000"
               />
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-[#FFFFF0] mb-2">
                 Email Address
               </label>
               <input
@@ -128,14 +138,16 @@ export default function Register() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none text-gray-800"
+                className="w-full px-4 py-3 rounded-lg bg-neutral-700 border border-neutral-600 text-[#FFFFF0] placeholder-neutral-400 focus:ring-2 focus:ring-neutral-500 focus:border-neutral-500 transition-all outline-none"
                 placeholder="john@example.com"
               />
             </div>
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-2">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-[#FFFFF0] mb-2">
               Password
             </label>
             <input
@@ -145,14 +157,16 @@ export default function Register() {
               value={formData.password}
               onChange={handleChange}
               required
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none text-gray-800"
+              className="w-full px-4 py-3 rounded-lg bg-neutral-700 border border-neutral-600 text-[#FFFFF0] placeholder-neutral-400 focus:ring-2 focus:ring-neutral-500 focus:border-neutral-500 transition-all outline-none"
               placeholder="••••••••"
             />
           </div>
 
           <div>
-            <label htmlFor="referalCode" className="block text-sm font-semibold text-gray-700 mb-2">
-              Referral Code <span className="text-gray-500 font-normal">(Optional)</span>
+            <label
+              htmlFor="referalCode"
+              className="block text-sm font-medium text-[#FFFFF0] mb-2">
+              Referral Code <span className="text-neutral-400">(Optional)</span>
             </label>
             <input
               type="text"
@@ -160,14 +174,16 @@ export default function Register() {
               name="referalCode"
               value={formData.referalCode}
               onChange={handleChange}
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none text-gray-800"
+              className="w-full px-4 py-3 rounded-lg bg-neutral-700 border border-neutral-600 text-[#FFFFF0] placeholder-neutral-400 focus:ring-2 focus:ring-neutral-500 focus:border-neutral-500 transition-all outline-none"
               placeholder="Enter referral code"
             />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label htmlFor="teamName" className="block text-sm font-semibold text-gray-700 mb-2">
+              <label
+                htmlFor="teamName"
+                className="block text-sm font-medium text-[#FFFFF0] mb-2">
                 Team Name
               </label>
               <input
@@ -177,13 +193,15 @@ export default function Register() {
                 value={formData.teamName}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none text-gray-800"
+                className="w-full px-4 py-3 rounded-lg bg-neutral-700 border border-neutral-600 text-[#FFFFF0] placeholder-neutral-400 focus:ring-2 focus:ring-neutral-500 focus:border-neutral-500 transition-all outline-none"
                 placeholder="Enter team name"
               />
             </div>
 
             <div>
-              <label htmlFor="teamLeader" className="block text-sm font-semibold text-gray-700 mb-2">
+              <label
+                htmlFor="teamLeader"
+                className="block text-sm font-medium text-[#FFFFF0] mb-2">
                 Team Leader
               </label>
               <input
@@ -193,12 +211,14 @@ export default function Register() {
                 value={formData.teamLeader}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none text-gray-800"
+                className="w-full px-4 py-3 rounded-lg bg-neutral-700 border border-neutral-600 text-[#FFFFF0] placeholder-neutral-400 focus:ring-2 focus:ring-neutral-500 focus:border-neutral-500 transition-all outline-none"
                 placeholder="Enter team leader name"
               />
             </div>
             <div>
-              <label htmlFor="teamLeader" className="block text-sm font-semibold text-gray-700 mb-2">
+              <label
+                htmlFor="dataAssigned"
+                className="block text-sm font-medium text-[#FFFFF0] mb-2">
                 Data Assigned
               </label>
               <input
@@ -208,7 +228,7 @@ export default function Register() {
                 value={formData.dataAssigned}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none text-gray-800"
+                className="w-full px-4 py-3 rounded-lg bg-neutral-700 border border-neutral-600 text-[#FFFFF0] placeholder-neutral-400 focus:ring-2 focus:ring-neutral-500 focus:border-neutral-500 transition-all outline-none"
                 placeholder="Enter data assigned"
               />
             </div>
@@ -216,8 +236,7 @@ export default function Register() {
 
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-4 rounded-lg hover:bg-blue-700 transition-all font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-          >
+            className="w-full bg-neutral-700 hover:bg-neutral-600 text-[#FFFFF0] py-4 rounded-lg transition-all font-semibold text-lg shadow-lg hover:shadow-xl border border-neutral-600">
             Create Account
           </button>
         </form>
