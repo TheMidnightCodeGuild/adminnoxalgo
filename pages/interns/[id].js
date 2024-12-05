@@ -217,7 +217,7 @@ export default function InternDetails() {
             </h2>
             <InfoField
               label="Data Assigned"
-              value={isEditing ? editedIntern.DataAssigned : (intern.DataAssigned[0] || 'No data assigned')}
+              value={isEditing ? editedIntern.DataAssigned : (intern.DataAssigned || 'No data assigned')}
               isEditing={isEditing}
               onChange={handleInputChange}
               name="DataAssigned"
