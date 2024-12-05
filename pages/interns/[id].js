@@ -1,18 +1,18 @@
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 const InfoField = ({ label, value, isEditing, onChange, name }) => (
   <div>
-    <h3 className="text-lg font-semibold text-gray-700">{label}</h3>
+    <h3 className="text-lg font-semibold text-neutral-200">{label}</h3>
     {isEditing ? (
       <input
         type="text"
-        value={value || ''}
+        value={value || ""}
         onChange={(e) => onChange(name, e.target.value)}
-        className="w-full p-2 border rounded-md"
+        className="w-full p-2 border rounded-md bg-neutral-800 text-neutral-200 border-neutral-700"
       />
     ) : (
-      <p className="text-gray-600">{value}</p>
+      <p className="text-neutral-300">{value}</p>
     )}
   </div>
 );
@@ -39,24 +39,24 @@ export default function InternDetails() {
       setEditedIntern(data);
       setLoading(false);
     } catch (error) {
-      console.error('Error fetching intern details:', error);
+      console.error("Error fetching intern details:", error);
       setLoading(false);
     }
   };
 
   const handleInputChange = (field, value) => {
-    setEditedIntern(prev => ({
+    setEditedIntern((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
   const handleSave = async () => {
     try {
       const response = await fetch(`/api/auth/intern/${id}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(editedIntern),
       });
@@ -65,86 +65,94 @@ export default function InternDetails() {
         setIntern(editedIntern);
         setIsEditing(false);
       } else {
-        throw new Error('Failed to update intern');
+        throw new Error("Failed to update intern");
       }
     } catch (error) {
-      console.error('Error updating intern:', error);
-      alert('Failed to update intern details');
+      console.error("Error updating intern:", error);
+      alert("Failed to update intern details");
     }
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-100 to-white flex items-center justify-center">
-        <div className="text-2xl text-gray-600">Loading...</div>
+      <div className="min-h-screen bg-neutral-900 flex items-center justify-center">
+        <div className="text-2xl text-neutral-200">Loading...</div>
       </div>
     );
   }
 
   if (!intern) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-100 to-white flex items-center justify-center">
-        <div className="text-2xl text-gray-600">Intern not found</div>
+      <div className="min-h-screen bg-neutral-900 flex items-center justify-center">
+        <div className="text-2xl text-neutral-200">Intern not found</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-white p-6">
-      <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-xl p-8">
+    <div className="min-h-screen bg-neutral-900 p-6">
+      <div className="max-w-3xl mx-auto bg-neutral-800 rounded-lg shadow-xl p-8">
         {isEditing ? (
           <input
             type="text"
             value={editedIntern.name}
-            onChange={(e) => handleInputChange('name', e.target.value)}
-            className="text-4xl font-bold text-gray-900 mb-6 w-full p-2 border rounded-md"
+            onChange={(e) => handleInputChange("name", e.target.value)}
+            className="text-4xl font-bold text-neutral-200 mb-6 w-full p-2 border rounded-md bg-neutral-800 border-neutral-700"
           />
         ) : (
-          <h1 className="text-4xl font-bold text-gray-900 mb-6">{intern.name}</h1>
+          <h1 className="text-4xl font-bold text-neutral-200 mb-6">
+            {intern.name}
+          </h1>
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Basic Information */}
           <div className="space-y-4">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Basic Information</h2>
-            <InfoField 
-              label="Username" 
+            <h2 className="text-2xl font-bold text-neutral-200 mb-4">
+              Basic Information
+            </h2>
+            <InfoField
+              label="Username"
               value={isEditing ? editedIntern.username : intern.username}
               isEditing={isEditing}
               onChange={handleInputChange}
               name="username"
             />
-            <InfoField 
-              label="Email" 
+            <InfoField
+              label="Email"
               value={isEditing ? editedIntern.email : intern.email}
               isEditing={isEditing}
               onChange={handleInputChange}
               name="email"
             />
-            <InfoField 
-              label="Phone" 
+            <InfoField
+              label="Phone"
               value={isEditing ? editedIntern.mobile : intern.mobile}
               isEditing={isEditing}
               onChange={handleInputChange}
               name="mobile"
             />
-            <InfoField 
-              label="Team Name" 
+            <InfoField
+              label="Team Name"
               value={isEditing ? editedIntern.TeamName : intern.TeamName}
               isEditing={isEditing}
               onChange={handleInputChange}
               name="TeamName"
             />
-            <InfoField 
-              label="Team Leader" 
+            <InfoField
+              label="Team Leader"
               value={isEditing ? editedIntern.teamLeader : intern.teamLeader}
               isEditing={isEditing}
               onChange={handleInputChange}
               name="teamLeader"
             />
-            <InfoField 
-              label="Referral Code" 
-              value={isEditing ? editedIntern.referalCode : (intern.referalCode || 'N/A')}
+            <InfoField
+              label="Referral Code"
+              value={
+                isEditing
+                  ? editedIntern.referalCode
+                  : intern.referalCode || "N/A"
+              }
               isEditing={isEditing}
               onChange={handleInputChange}
               name="referalCode"
@@ -153,31 +161,49 @@ export default function InternDetails() {
 
           {/* Performance Metrics */}
           <div className="space-y-4">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Performance Metrics</h2>
-            <InfoField 
-              label="Deals Closed (Personal)" 
-              value={isEditing ? editedIntern.dealsClosedPersonally : intern.dealsClosedPersonally}
+            <h2 className="text-2xl font-bold text-neutral-200 mb-4">
+              Performance Metrics
+            </h2>
+            <InfoField
+              label="Deals Closed (Personal)"
+              value={
+                isEditing
+                  ? editedIntern.dealsClosedPersonally
+                  : intern.dealsClosedPersonally
+              }
               isEditing={isEditing}
               onChange={handleInputChange}
               name="dealsClosedPersonally"
             />
-            <InfoField 
-              label="Deals Closed (Team)" 
-              value={isEditing ? editedIntern.dealsClosedByTeam : intern.dealsClosedByTeam}
+            <InfoField
+              label="Deals Closed (Team)"
+              value={
+                isEditing
+                  ? editedIntern.dealsClosedByTeam
+                  : intern.dealsClosedByTeam
+              }
               isEditing={isEditing}
               onChange={handleInputChange}
               name="dealsClosedByTeam"
             />
-            <InfoField 
-              label="Commission Earned" 
-              value={isEditing ? editedIntern.comissionEarned : intern.comissionEarned}
+            <InfoField
+              label="Commission Earned"
+              value={
+                isEditing
+                  ? editedIntern.comissionEarned
+                  : intern.comissionEarned
+              }
               isEditing={isEditing}
               onChange={handleInputChange}
               name="comissionEarned"
             />
-            <InfoField 
-              label="Commission Released" 
-              value={isEditing ? editedIntern.comissionReleased : intern.comissionReleased}
+            <InfoField
+              label="Commission Released"
+              value={
+                isEditing
+                  ? editedIntern.comissionReleased
+                  : intern.comissionReleased
+              }
               isEditing={isEditing}
               onChange={handleInputChange}
               name="comissionReleased"
@@ -186,8 +212,10 @@ export default function InternDetails() {
 
           {/* Data Assigned Section */}
           <div className="col-span-1 md:col-span-2">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Assigned Data</h2>
-            <InfoField 
+            <h2 className="text-2xl font-bold text-neutral-200 mb-4">
+              Assigned Data
+            </h2>
+            <InfoField
               label="Data Assigned"
               value={isEditing ? editedIntern.DataAssigned : (intern.DataAssigned[0] || 'No data assigned')}
               isEditing={isEditing}
@@ -198,27 +226,46 @@ export default function InternDetails() {
 
           {/* Call History */}
           <div className="col-span-1 md:col-span-2">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Call History</h2>
+            <h2 className="text-2xl font-bold text-neutral-200 mb-4">
+              Call History
+            </h2>
             <div className="overflow-x-auto">
-              <table className="min-w-full bg-white border border-gray-200">
+              <table className="min-w-full bg-neutral-800 border border-neutral-700">
                 <thead>
-                  <tr className="bg-gray-50">
-                    <th className="px-4 py-2 border">Date</th>
-                    <th className="px-4 py-2 border">Clients Called</th>
-                    <th className="px-4 py-2 border">Meetings Scheduled</th>
+                  <tr className="bg-neutral-700">
+                    <th className="px-4 py-2 border border-neutral-600 text-neutral-200">
+                      Date
+                    </th>
+                    <th className="px-4 py-2 border border-neutral-600 text-neutral-200">
+                      Clients Called
+                    </th>
+                    <th className="px-4 py-2 border border-neutral-600 text-neutral-200">
+                      Meetings Scheduled
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {intern.calls && intern.calls.map((call, index) => (
-                    <tr key={index}>
-                      <td className="px-4 py-2 border">{new Date(call.Date).toLocaleDateString()}</td>
-                      <td className="px-4 py-2 border text-center">{call.NoOfClients}</td>
-                      <td className="px-4 py-2 border text-center">{call.MeetingsScheduled}</td>
-                    </tr>
-                  ))}
+                  {intern.calls &&
+                    intern.calls.map((call, index) => (
+                      <tr key={index}>
+                        <td className="px-4 py-2 border border-neutral-600 text-neutral-300">
+                          {new Date(call.Date).toLocaleDateString()}
+                        </td>
+                        <td className="px-4 py-2 border border-neutral-600 text-center text-neutral-300">
+                          {call.NoOfClients}
+                        </td>
+                        <td className="px-4 py-2 border border-neutral-600 text-center text-neutral-300">
+                          {call.MeetingsScheduled}
+                        </td>
+                      </tr>
+                    ))}
                   {(!intern.calls || intern.calls.length === 0) && (
                     <tr>
-                      <td colSpan="3" className="px-4 py-2 border text-center text-gray-500">No call history available</td>
+                      <td
+                        colSpan="3"
+                        className="px-4 py-2 border border-neutral-600 text-center text-neutral-400">
+                        No call history available
+                      </td>
                     </tr>
                   )}
                 </tbody>
@@ -230,17 +277,15 @@ export default function InternDetails() {
         <div className="mt-8 flex gap-4">
           <button
             onClick={() => router.back()}
-            className="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition-all"
-          >
+            className="bg-neutral-700 text-[#fffff0] px-6 py-2 rounded-lg hover:bg-neutral-600 transition-all">
             Back to List
           </button>
-          
+
           {isEditing ? (
             <>
               <button
                 onClick={handleSave}
-                className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-all"
-              >
+                className="bg-green-700 text-[#fffff0] px-6 py-2 rounded-lg hover:bg-green-600 transition-all">
                 Save Changes
               </button>
               <button
@@ -248,16 +293,14 @@ export default function InternDetails() {
                   setEditedIntern(intern);
                   setIsEditing(false);
                 }}
-                className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-all"
-              >
+                className="bg-red-700 text-[#fffff0] px-6 py-2 rounded-lg hover:bg-red-600 transition-all">
                 Cancel
               </button>
             </>
           ) : (
             <button
               onClick={() => setIsEditing(true)}
-              className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-all"
-            >
+              className="bg-blue-700 text-[#fffff0] px-6 py-2 rounded-lg hover:bg-blue-600 transition-all">
               Edit
             </button>
           )}
